@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Input, Button, message } from "antd";
 import SpeechRecognition, {
     useSpeechRecognition,
@@ -14,7 +14,7 @@ import { setSearchKeyword } from "../state/reducers/SearchKeywordSlice";
 const { Search } = Input;
 
 function SearchBar(props) {
-    const search_keyword = useSelector((state) => state.search_keyword);
+    const [keyword, setKeyword] = useState('')
 
     const dispatch = useDispatch();
 
@@ -66,7 +66,8 @@ function SearchBar(props) {
 
             // note: set voice text
             // document.getElementById("search-bar").value = value;
-            dispatch(setSearchKeyword(transcript))
+            // dispatch(setSearchKeyword(transcript))
+            setKeyword(transcript)
         }
     }, [listening]);
 
@@ -80,6 +81,9 @@ function SearchBar(props) {
             return;
         }
 
+        // set keyword status
+        dispatch(setSearchKeyword(e.target.value))
+
         // clear search bar
         let search_bar = document.getElementById("search-bar");
         search_bar.value = "";
@@ -90,7 +94,7 @@ function SearchBar(props) {
 
     
     const onChange = (e) => {
-        dispatch(setSearchKeyword(e.target.value))
+        setKeyword(e.target.value)
     }
 
 
@@ -140,7 +144,7 @@ function SearchBar(props) {
             suffix={suffix}
             prefix={<SearchOutlined />}
             onPressEnter={onSearch}
-            value={search_keyword}
+            value={keyword}
             onChange={onChange}
         />
     );
