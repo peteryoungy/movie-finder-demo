@@ -12,7 +12,7 @@ import store from "./state/store";
 import * as AWS from 'aws-sdk';
 
 //Amplify Cognito
-Amplify.configure({
+Amplify.configure({ 
     Auth: {
         mandatorySignIn: true,
         region: process.env["REACT_APP_REGION"],
