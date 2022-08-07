@@ -306,10 +306,12 @@ function Home(props) {
 
         console.log("auth.user", auth.user);
 
-        if (auth.user === null) {
-            window.location.href = "/login";
-            return;
-        }
+
+        // att: avoid authenticate, uncomment this
+        // if (auth.user === null) {
+        //     window.location.href = "/login";
+        //     return;
+        // }
 
         const parent = e.target.closest(".movie-card");
         console.log("parent", parent);

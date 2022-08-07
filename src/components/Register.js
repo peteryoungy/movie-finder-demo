@@ -21,81 +21,98 @@ function Register(props) {
     }, [regState]);
 
     const handleSubmit = () => {
-        const { username, password, email } = regState;
-        console.log("username, password, email", username, password, email);
 
-        // AWS Cognito integration here
-        Auth.signUp({
-            username,
-            password,
-            attributes: {
-                email: email,
+        message.success({
+            content:
+                "New account created successfully. You will be redirect to login page in 5 seconds.",
+            style: {
+                margin: "auto",
+                marginTop: "30vh",
+                width: "500px",
             },
-        })
-            .then((res) => {
-                console.log("signup res", res);
-                const signUpResponse = res;
+            duration: 5,
+        });
+        setTimeout(() => {
+            window.location.href = "/login";
+        }, 5000);
 
-                // DynamoDB
-                const dynamodb = new AWS.DynamoDB.DocumentClient();
+        // att:correct code belows:
 
-                let params = {
-                    TableName: "user",
-                    Item: {
-                        user_id: signUpResponse["userSub"],
-                        username: username,
-                        email: email,
-                        movieLikeHistory: [],
-                        genreLikeHistory: [],
-                    },
-                };
+        // const { username, password, email } = regState;
+        // console.log("username, password, email", username, password, email);
 
-                console.log(params);
+        // // AWS Cognito integration here
+        // Auth.signUp({
+        //     username,
+        //     password,
+        //     attributes: {
+        //         email: email,
+        //     },
+        // })
+        //     .then((res) => {
+        //         console.log("signup res", res);
+        //         const signUpResponse = res;
 
-                dynamodb.put(params, function (err, data) {
-                    if (err) {
-                        console.log("dynamodb err", err);
-                    } else {
-                        console.log("dynamodb data", data);
-                    }
-                });
+        //         // DynamoDB
+        //         const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-                // display success message, after 5 seconds, redirect to login page.
-                message.success({
-                    content:
-                        "New account created successfully. Check your email box to confirm your account. You will be redirect to login page in 5 seconds.",
-                    style: {
-                        margin: "auto",
-                        marginTop: "30vh",
-                        width: "500px",
-                    },
-                    duration: 5,
-                });
-                setTimeout(() => {
-                    window.location.href = "/login";
-                }, 5000);
-            })
-            .catch((error) => {
-                let err = null;
-                !error.message ? (err = { message: error }) : (err = error);
-                setRegState({
-                    ...regState,
-                    errors: {
-                        ...regState.errors,
-                        cognito: err,
-                    },
-                });
-                console.log("reg.errors", regState.errors);
+        //         let params = {
+        //             TableName: "user",
+        //             Item: {
+        //                 user_id: signUpResponse["userSub"],
+        //                 username: username,
+        //                 email: email,
+        //                 movieLikeHistory: [],
+        //                 genreLikeHistory: [],
+        //             },
+        //         };
 
-                // display error message
-                message.error({
-                    content: "Register failed. Please retry.",
-                    style: {
-                        marginTop: "30vh",
-                    },
-                    duration: 3,
-                });
-            });
+        //         console.log(params);
+
+        //         dynamodb.put(params, function (err, data) {
+        //             if (err) {
+        //                 console.log("dynamodb err", err);
+        //             } else {
+        //                 console.log("dynamodb data", data);
+        //             }
+        //         });
+
+        //         // display success message, after 5 seconds, redirect to login page.
+        //         message.success({
+        //             content:
+        //                 "New account created successfully. Check your email box to confirm your account. You will be redirect to login page in 5 seconds.",
+        //             style: {
+        //                 margin: "auto",
+        //                 marginTop: "30vh",
+        //                 width: "500px",
+        //             },
+        //             duration: 5,
+        //         });
+        //         setTimeout(() => {
+        //             window.location.href = "/login";
+        //         }, 5000);
+        //     })
+        //     .catch((error) => {
+        //         let err = null;
+        //         !error.message ? (err = { message: error }) : (err = error);
+        //         setRegState({
+        //             ...regState,
+        //             errors: {
+        //                 ...regState.errors,
+        //                 cognito: err,
+        //             },
+        //         });
+        //         console.log("reg.errors", regState.errors);
+
+        //         // display error message
+        //         message.error({
+        //             content: "Register failed. Please retry.",
+        //             style: {
+        //                 marginTop: "30vh",
+        //             },
+        //             duration: 3,
+        //         });
+        //     });
     };
 
     const onChange = (event) => {

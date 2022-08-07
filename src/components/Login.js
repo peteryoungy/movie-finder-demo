@@ -28,31 +28,39 @@ function Login(props) {
     const passwordRef = useRef();
 
     const handleSubmit = () => {
-        Auth.signIn(username, password)
-            .then((res) => {
-                const user = res;
-                console.log("res_user", user);
-                auth.setIsAuthenticated(true);
-                auth.setUser(user);
-                window.location.href = "/";
-            })
-            .catch((error) => {
-                let err = null;
-                !error.message ? (err = { message: error }) : (err = error);
-                setErrors({
-                    ...errors,
-                    cognito: err,
-                });
-                message.error({
-                    content: "Incorrect ID or password. Please re-enter.",
-                    style: {
-                        marginTop: "30vh"
-                    },
-                });
+        
+        // func: ignore authentication part
+        auth.setIsAuthenticated(true);
+        // auth.setUser({name: "peter"});
+        window.location.href = "/";
 
-                // focus
-                passwordRef.current.focus();
-            });
+        // att: correct code belows
+
+        // Auth.signIn(username, password)
+        //     .then((res) => {
+        //         const user = res;
+        //         console.log("res_user", user);
+        //         auth.setIsAuthenticated(true);
+        //         auth.setUser(user);
+        //         window.location.href = "/";
+        //     })
+        //     .catch((error) => {
+        //         let err = null;
+        //         !error.message ? (err = { message: error }) : (err = error);
+        //         setErrors({
+        //             ...errors,
+        //             cognito: err,
+        //         });
+        //         message.error({
+        //             content: "Incorrect ID or password. Please re-enter.",
+        //             style: {
+        //                 marginTop: "30vh"
+        //             },
+        //         });
+
+        //         // focus
+        //         passwordRef.current.focus();
+        //     });
     };
 
     const onUserNameChange = (event) => {

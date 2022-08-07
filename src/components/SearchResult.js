@@ -15,10 +15,26 @@ import { StarTwoTone } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { authContext } from "./App";
 
+const defaultResponse = {
+    films: [
+        {
+            id: "296301",
+            title: "Doctor Strange in the Multiverse of Madness",
+            image: "https://image.movieglu.com/296301/296301h1.jpg",
+            rating: "2",
+            genres: ["Action/Adventure", "SciFi/Fantasy"],
+            duration: "126"
+        },
+    ],
+};
+
 function SearchResult(props) {
     const { Meta } = Card;
 
-    const search_result = useSelector((state) => state.search_result);
+    const [search_result, setSearchResult] = useState(defaultResponse);
+
+    // att: correct code below
+    // const search_result = useSelector((state) => state.search_result);
 
     const search_keyword = useSelector((state) => state.search_keyword);
 
@@ -75,11 +91,12 @@ function SearchResult(props) {
         console.log("event", e);
 
         console.log("auth.user", auth.user);
-
-        if (auth.user === null) {
-            window.location.href = "/login";
-            return;
-        }
+        
+        // att: correct code below
+        // if (auth.user === null) {
+        //     window.location.href = "/login";
+        //     return;
+        // }
 
         const parent = e.target.closest(".movie-card");
         console.log("parent", parent);
@@ -96,7 +113,10 @@ function SearchResult(props) {
             <br />
             <div className="detail-div">
                 <br />
-                <div className="home-title"> Search results for "{search_keyword}"</div>
+                <div className="home-title">
+                    {" "}
+                    Search results for "{search_keyword}"
+                </div>
                 <div className="home-div">{renderSearch()}</div>
                 <br />
             </div>

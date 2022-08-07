@@ -72,24 +72,30 @@ function SearchBar(props) {
     }, [listening]);
 
     const onSearch = (e) => {
-        // console.log('e', e)
-        // console.log(e.target.defaultValue)
-        const keyword = e.target.defaultValue;
 
-        // addon: check the keyword
-        if (keyword.trim() === "") {
-            return;
-        }
-
-        // set keyword status
         dispatch(setSearchKeyword(e.target.value))
+        window.location.href = "/search";
+        
+        // att: correct code below
 
-        // clear search bar
-        let search_bar = document.getElementById("search-bar");
-        search_bar.value = "";
+        // // console.log('e', e)
+        // // console.log(e.target.defaultValue)
+        // const keyword = e.target.defaultValue;
 
-        // todo: uncomment this when SearchLambda is READY
-        apiGetSearch(keyword);
+        // // addon: check the keyword
+        // if (keyword.trim() === "") {
+        //     return;
+        // }
+
+        // // set keyword status
+        // dispatch(setSearchKeyword(e.target.value))
+
+        // // clear search bar
+        // let search_bar = document.getElementById("search-bar");
+        // search_bar.value = "";
+
+        // // todo: uncomment this when SearchLambda is READY
+        // // apiGetSearch(keyword);
     };
 
     
